@@ -39,18 +39,6 @@ private[spark] class KubernetesClusterSchedulerBackend(
     pollEvents: ExecutorPodsPollingSnapshotSource)
   extends CoarseGrainedSchedulerBackend(scheduler, rpcEnv) {
 
-  private def getAppId(appId: Option[String]): String = {
-    if (appId.isDefined) {
-      appId.get
-    } else {
-      super.applicationId()
-    }
-  }
-
-  private val appId = getAppId(conf.getOption("spark.app.id"))
-
-  override def applicationId(): String = appId
-
   private implicit val requestExecutorContext = ExecutionContext.fromExecutorService(
     requestExecutorsService)
 
